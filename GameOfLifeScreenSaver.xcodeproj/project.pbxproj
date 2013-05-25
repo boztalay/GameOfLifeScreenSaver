@@ -11,6 +11,8 @@
 		FB26F513175065B1007CFB2B /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB26F512175065B1007CFB2B /* ScreenSaver.framework */; };
 		FB26F51D175065B1007CFB2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB26F51B175065B1007CFB2B /* InfoPlist.strings */; };
 		FB26F521175065B1007CFB2B /* GameOfLifeScreenSaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26F520175065B1007CFB2B /* GameOfLifeScreenSaverView.m */; };
+		FBB3B43B17506A0900199D08 /* GameOfLifeEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = FBB3B43917506A0900199D08 /* GameOfLifeEngine.h */; };
+		FBB3B43C17506A0900199D08 /* GameOfLifeEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB3B43A17506A0900199D08 /* GameOfLifeEngine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		FB26F51E175065B1007CFB2B /* GameOfLifeScreenSaver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GameOfLifeScreenSaver-Prefix.pch"; sourceTree = "<group>"; };
 		FB26F51F175065B1007CFB2B /* GameOfLifeScreenSaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameOfLifeScreenSaverView.h; sourceTree = "<group>"; };
 		FB26F520175065B1007CFB2B /* GameOfLifeScreenSaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameOfLifeScreenSaverView.m; sourceTree = "<group>"; };
+		FBB3B43917506A0900199D08 /* GameOfLifeEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOfLifeEngine.h; sourceTree = "<group>"; };
+		FBB3B43A17506A0900199D08 /* GameOfLifeEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOfLifeEngine.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 			children = (
 				FB26F51F175065B1007CFB2B /* GameOfLifeScreenSaverView.h */,
 				FB26F520175065B1007CFB2B /* GameOfLifeScreenSaverView.m */,
+				FBB3B438175069EA00199D08 /* Game of Life Engine */,
 				FB26F519175065B1007CFB2B /* Supporting Files */,
 			);
 			path = GameOfLifeScreenSaver;
@@ -97,6 +102,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		FBB3B438175069EA00199D08 /* Game of Life Engine */ = {
+			isa = PBXGroup;
+			children = (
+				FBB3B43917506A0900199D08 /* GameOfLifeEngine.h */,
+				FBB3B43A17506A0900199D08 /* GameOfLifeEngine.m */,
+			);
+			name = "Game of Life Engine";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -104,6 +118,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBB3B43B17506A0900199D08 /* GameOfLifeEngine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB26F521175065B1007CFB2B /* GameOfLifeScreenSaverView.m in Sources */,
+				FBB3B43C17506A0900199D08 /* GameOfLifeEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +319,7 @@
 				FB26F526175065B1007CFB2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
