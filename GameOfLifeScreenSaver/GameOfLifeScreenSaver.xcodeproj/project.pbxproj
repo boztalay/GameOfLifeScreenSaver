@@ -1,0 +1,310 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FB26F511175065B1007CFB2B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB26F510175065B1007CFB2B /* Cocoa.framework */; };
+		FB26F513175065B1007CFB2B /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB26F512175065B1007CFB2B /* ScreenSaver.framework */; };
+		FB26F51D175065B1007CFB2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB26F51B175065B1007CFB2B /* InfoPlist.strings */; };
+		FB26F521175065B1007CFB2B /* GameOfLifeScreenSaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26F520175065B1007CFB2B /* GameOfLifeScreenSaverView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FB26F50D175065B1007CFB2B /* GameOfLifeScreenSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameOfLifeScreenSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB26F510175065B1007CFB2B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		FB26F512175065B1007CFB2B /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
+		FB26F515175065B1007CFB2B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		FB26F516175065B1007CFB2B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		FB26F517175065B1007CFB2B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FB26F51A175065B1007CFB2B /* GameOfLifeScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameOfLifeScreenSaver-Info.plist"; sourceTree = "<group>"; };
+		FB26F51C175065B1007CFB2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FB26F51E175065B1007CFB2B /* GameOfLifeScreenSaver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GameOfLifeScreenSaver-Prefix.pch"; sourceTree = "<group>"; };
+		FB26F51F175065B1007CFB2B /* GameOfLifeScreenSaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameOfLifeScreenSaverView.h; sourceTree = "<group>"; };
+		FB26F520175065B1007CFB2B /* GameOfLifeScreenSaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameOfLifeScreenSaverView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FB26F508175065B1007CFB2B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB26F511175065B1007CFB2B /* Cocoa.framework in Frameworks */,
+				FB26F513175065B1007CFB2B /* ScreenSaver.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FB26F502175065B1007CFB2B = {
+			isa = PBXGroup;
+			children = (
+				FB26F518175065B1007CFB2B /* GameOfLifeScreenSaver */,
+				FB26F50F175065B1007CFB2B /* Frameworks */,
+				FB26F50E175065B1007CFB2B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FB26F50E175065B1007CFB2B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FB26F50D175065B1007CFB2B /* GameOfLifeScreenSaver.saver */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FB26F50F175065B1007CFB2B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB26F510175065B1007CFB2B /* Cocoa.framework */,
+				FB26F512175065B1007CFB2B /* ScreenSaver.framework */,
+				FB26F514175065B1007CFB2B /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB26F514175065B1007CFB2B /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB26F515175065B1007CFB2B /* AppKit.framework */,
+				FB26F516175065B1007CFB2B /* CoreData.framework */,
+				FB26F517175065B1007CFB2B /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		FB26F518175065B1007CFB2B /* GameOfLifeScreenSaver */ = {
+			isa = PBXGroup;
+			children = (
+				FB26F51F175065B1007CFB2B /* GameOfLifeScreenSaverView.h */,
+				FB26F520175065B1007CFB2B /* GameOfLifeScreenSaverView.m */,
+				FB26F519175065B1007CFB2B /* Supporting Files */,
+			);
+			path = GameOfLifeScreenSaver;
+			sourceTree = "<group>";
+		};
+		FB26F519175065B1007CFB2B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FB26F51A175065B1007CFB2B /* GameOfLifeScreenSaver-Info.plist */,
+				FB26F51B175065B1007CFB2B /* InfoPlist.strings */,
+				FB26F51E175065B1007CFB2B /* GameOfLifeScreenSaver-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		FB26F509175065B1007CFB2B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		FB26F50C175065B1007CFB2B /* GameOfLifeScreenSaver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB26F524175065B1007CFB2B /* Build configuration list for PBXNativeTarget "GameOfLifeScreenSaver" */;
+			buildPhases = (
+				FB26F507175065B1007CFB2B /* Sources */,
+				FB26F508175065B1007CFB2B /* Frameworks */,
+				FB26F509175065B1007CFB2B /* Headers */,
+				FB26F50A175065B1007CFB2B /* Resources */,
+				FB26F50B175065B1007CFB2B /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GameOfLifeScreenSaver;
+			productName = GameOfLifeScreenSaver;
+			productReference = FB26F50D175065B1007CFB2B /* GameOfLifeScreenSaver.saver */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FB26F503175065B1007CFB2B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Ben Oztalay";
+			};
+			buildConfigurationList = FB26F506175065B1007CFB2B /* Build configuration list for PBXProject "GameOfLifeScreenSaver" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FB26F502175065B1007CFB2B;
+			productRefGroup = FB26F50E175065B1007CFB2B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FB26F50C175065B1007CFB2B /* GameOfLifeScreenSaver */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FB26F50A175065B1007CFB2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB26F51D175065B1007CFB2B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		FB26F50B175065B1007CFB2B /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FB26F507175065B1007CFB2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB26F521175065B1007CFB2B /* GameOfLifeScreenSaverView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FB26F51B175065B1007CFB2B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB26F51C175065B1007CFB2B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FB26F522175065B1007CFB2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FB26F523175065B1007CFB2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FB26F525175065B1007CFB2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GameOfLifeScreenSaver/GameOfLifeScreenSaver-Prefix.pch";
+				INFOPLIST_FILE = "GameOfLifeScreenSaver/GameOfLifeScreenSaver-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Debug;
+		};
+		FB26F526175065B1007CFB2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GameOfLifeScreenSaver/GameOfLifeScreenSaver-Prefix.pch";
+				INFOPLIST_FILE = "GameOfLifeScreenSaver/GameOfLifeScreenSaver-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FB26F506175065B1007CFB2B /* Build configuration list for PBXProject "GameOfLifeScreenSaver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB26F522175065B1007CFB2B /* Debug */,
+				FB26F523175065B1007CFB2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB26F524175065B1007CFB2B /* Build configuration list for PBXNativeTarget "GameOfLifeScreenSaver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB26F525175065B1007CFB2B /* Debug */,
+				FB26F526175065B1007CFB2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FB26F503175065B1007CFB2B /* Project object */;
+}
