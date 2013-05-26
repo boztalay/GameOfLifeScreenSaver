@@ -25,7 +25,7 @@
 {
     [self allocateGrids];
     [self resetGrids];
-    [self seedGrids];
+    [self seedNewGame];
 }
 
 - (void)allocateGrids
@@ -48,73 +48,51 @@
     }
 }
 
-- (void)seedGrids
+- (void)seedNewGame
 {
+    for(int i = 0; i < gridWidth; i++) {
+        for(int j = 0; j < gridHeight; j++) {
+            if((arc4random() % 10) == 0) {
+                currentCellGrid[i][j] = BORN_CELL_AGE;
+            } else {
+                currentCellGrid[i][j] = DEAD_CELL_AGE;
+            }
+        }
+    }
     
+    for(int i = 0; i < gridWidth; i++) {
+        for(int j = 0; j < gridHeight; j++) {
+            if([self numberOfLiveNeighborsOfCellAtX:i andY:j] != 0) {
+                if((arc4random() % 4) == 0) {
+                    currentCellGrid[i][j] = BORN_CELL_AGE;
+                } else {
+                    currentCellGrid[i][j] = DEAD_CELL_AGE;
+                }
+            } else {
+                if(currentCellGrid[i][j] == BORN_CELL_AGE) {
+                    currentCellGrid[i][j] = BORN_CELL_AGE;
+                } else {
+                    currentCellGrid[i][j] = DEAD_CELL_AGE;
+                }
+            }
+        }
+    }
 }
 
 - (void)runGeneration
 {
-    [self copyGridsDown];
-    
-    for(int y = 0; y < gridHeight; y++) {
-        for(int x = 0; x < gridWidth; x++) {
-            int numberOfNeighbors = [self numberOfLiveNeighborsOfCellAtX:x andY:y];
-            
-            if([self isCellInLastGridAliveAtX:x andY:y]) {
-                if(numberOfNeighbors == 2 && numberOfNeighbors == 3) {
-                    currentCellGrid[x][y] = lastCellGrid[x][y] + 1;
-                } else {
-                    currentCellGrid[x][y] = DEAD_CELL_AGE;
-                }
-            } else {
-                if(numberOfNeighbors == 3) {
-                    currentCellGrid[x][y] = BORN_CELL_AGE;
-                } else {
-                    currentCellGrid[x][y] = DEAD_CELL_AGE;
-                }
-            }
-        }
-    }
-    
-    [self detectBoringGridAndResetIfNecessary];
-}
-
-- (void)copyGridsDown
-{
-    memcpy(lastLastCellGrid, lastCellGrid, sizeOfGridInBytes);
-    memcpy(lastCellGrid, currentCellGrid, sizeOfGridInBytes);
-}
-
-- (int)numberOfLiveNeighborsOfCellAtX:(int)x andY:(int)y
-{
-    int startX = x - 1 + gridWidth;
-    int endX = startX + 3;
-    
-    int startY = y - 1 + gridHeight;
-    int endY = startY + 3;
-    
-    int liveNeighbors = 0;
-    
-    for(int neighborY = startY; neighborY < endY; neighborY++) {
-        for(int neighborX = startX; neighborX < endX; neighborX++) {
-            if(neighborX != x && neighborY != y) {
-                if([self isCellAliveAtX:(neighborX % gridWidth) andY:(neighborY % gridHeight)]) {
-                    liveNeighbors++;
-                }
-            }
-        }
-    }
-    
-    return liveNeighbors;
-}
-
-- (void)detectBoringGridAndResetIfNecessary
-{
-    if([self isTheCurrentGridEqualToTheLastGrid] || [self isTheCurrentGridEqualToTheLastLastGrid]) {
+    if([self shouldSeedNewGame]) {
         [self resetGrids];
-        [self seedGrids];
+        [self seedNewGame];
+    } else {
+        [self copyNewerGridsToOlderGrids];
+        [self calculateNextGeneration];
     }
+}
+
+- (BOOL)shouldSeedNewGame
+{
+    return ([self isTheCurrentGridEqualToTheLastGrid] || [self isTheCurrentGridEqualToTheLastLastGrid]);
 }
 
 - (BOOL)isTheCurrentGridEqualToTheLastGrid
@@ -141,6 +119,58 @@
     }
     
     return true;
+}
+
+- (void)copyNewerGridsToOlderGrids
+{
+    memcpy(lastLastCellGrid, lastCellGrid, sizeOfGridInBytes);
+    memcpy(lastCellGrid, currentCellGrid, sizeOfGridInBytes);
+}
+
+- (void)calculateNextGeneration
+{
+    for(int y = 0; y < gridHeight; y++) {
+        for(int x = 0; x < gridWidth; x++) {
+            int numberOfNeighbors = [self numberOfLiveNeighborsOfCellAtX:x andY:y];
+            
+            if([self isCellInLastGridAliveAtX:x andY:y]) {
+                if(numberOfNeighbors == 2 && numberOfNeighbors == 3) {
+                    currentCellGrid[x][y] = lastCellGrid[x][y] + 1;
+                } else {
+                    currentCellGrid[x][y] = DEAD_CELL_AGE;
+                }
+            } else {
+                if(numberOfNeighbors == 3) {
+                    currentCellGrid[x][y] = BORN_CELL_AGE;
+                } else {
+                    currentCellGrid[x][y] = DEAD_CELL_AGE;
+                }
+            }
+        }
+    }
+}
+
+- (int)numberOfLiveNeighborsOfCellAtX:(int)x andY:(int)y
+{
+    int startX = x - 1 + gridWidth;
+    int endX = startX + 3;
+    
+    int startY = y - 1 + gridHeight;
+    int endY = startY + 3;
+    
+    int liveNeighbors = 0;
+    
+    for(int neighborY = startY; neighborY < endY; neighborY++) {
+        for(int neighborX = startX; neighborX < endX; neighborX++) {
+            if(neighborX != x && neighborY != y) {
+                if([self isCellAliveAtX:(neighborX % gridWidth) andY:(neighborY % gridHeight)]) {
+                    liveNeighbors++;
+                }
+            }
+        }
+    }
+    
+    return liveNeighbors;
 }
 
 - (int)getAgeOfCellAtX:(int)x andY:(int)y
