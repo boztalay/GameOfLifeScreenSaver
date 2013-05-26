@@ -9,20 +9,24 @@
 #import <Foundation/Foundation.h>
 
 @interface GameOfLifeEngine : NSObject {
-    NSInteger* cellGrid;
+    int** currentCellGrid;
+    int** lastCellGrid;
+    int** lastLastCellGrid;
     
-    NSInteger gridWidth;
-    NSInteger gridHeight;
+    int gridWidth;
+    int gridHeight;
+    
+    size_t sizeOfGridInBytes;
 }
 
-- (void)initWithGridWidth:(NSInteger)gridWidth andGridHeight:(NSInteger)gridHeight;
+- (void)initWithGridWidth:(int)gridWidth andGridHeight:(int)gridHeight;
 
 - (void)runGeneration;
 
-- (NSInteger)getAgeOfCellAtCoordinate:(NSPoint)cellCoordinate;
-- (BOOL)isCellAliveAtCoordinate:(NSPoint)cellCoordinate;
+- (int)getAgeOfCellAtX:(int)x andY:(int)y;
+- (BOOL)isCellAliveAtX:(int)x andY:(int)y;
 
-- (NSInteger)getGridWidth;
-- (NSInteger)getGridHeight;
+- (int)getGridWidth;
+- (int)getGridHeight;
 
 @end
