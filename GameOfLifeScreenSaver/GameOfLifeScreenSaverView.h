@@ -7,7 +7,10 @@
 //
 
 #import <ScreenSaver/ScreenSaver.h>
+#import "GameOfLifeEngine.h"
 
-@interface GameOfLifeScreenSaverView : ScreenSaverView
+@interface GameOfLifeScreenSaverView : ScreenSaverView {
+    GameOfLifeEngine* gameOfLife;
+}
 
 @end

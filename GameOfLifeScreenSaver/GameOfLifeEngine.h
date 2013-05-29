@@ -16,10 +16,11 @@
     int gridWidth;
     int gridHeight;
     
-    size_t sizeOfGridInBytes;
+    size_t gridRowSizeInBytes;
+    size_t gridColumnSizeInBytes;
 }
 
-- (void)initWithGridWidth:(int)gridWidth andGridHeight:(int)gridHeight;
+- (id)initWithGridWidth:(int)gridWidth andGridHeight:(int)gridHeight;
 
 - (void)runGeneration;
 

@@ -8,17 +8,21 @@
 
 #import "GameOfLifeEngine.h"
 
-#define DEAD_CELL_AGE -1
 #define BORN_CELL_AGE 0
+#define DEAD_CELL_AGE -1
 
 @implementation GameOfLifeEngine
 
-- (void)initWithGridWidth:(int)_gridWidth andGridHeight:(int)_gridHeight
+- (id)initWithGridWidth:(int)_gridWidth andGridHeight:(int)_gridHeight
 {
-    gridWidth = _gridWidth;
-    gridHeight = _gridHeight;
-    
-    [self initializeGrids];
+    self = [super init];
+    if(self) {
+        gridWidth = _gridWidth;
+        gridHeight = _gridHeight;
+        
+        [self initializeGrids];
+    }
+    return self;
 }
 
 - (void)initializeGrids
@@ -30,17 +34,24 @@
 
 - (void)allocateGrids
 {
-    sizeOfGridInBytes = gridWidth * gridHeight * sizeof(int);
+    gridRowSizeInBytes = gridWidth * sizeof(int*);
+    gridColumnSizeInBytes = gridHeight * sizeof(int);
     
-    currentCellGrid = malloc(sizeOfGridInBytes);
-    lastCellGrid = malloc(sizeOfGridInBytes);
-    lastLastCellGrid = malloc(sizeOfGridInBytes);
+    currentCellGrid = malloc(gridRowSizeInBytes);
+    lastCellGrid = malloc(gridRowSizeInBytes);
+    lastLastCellGrid = malloc(gridRowSizeInBytes);
+    
+    for(int i = 0; i < gridWidth; i++) {
+        currentCellGrid[i] = malloc(gridColumnSizeInBytes);
+        lastCellGrid[i] = malloc(gridColumnSizeInBytes);
+        lastLastCellGrid[i] = malloc(gridColumnSizeInBytes);
+    }
 }
 
 - (void)resetGrids
 {
-    for(int y = 0; y < gridHeight; y++) {
-        for(int x = 0; x < gridWidth; x++) {
+    for(int x = 0; x < gridWidth; x++) {
+        for(int y = 0; y < gridHeight; y++) {
             currentCellGrid[x][y] = DEAD_CELL_AGE;
             lastCellGrid[x][y] = DEAD_CELL_AGE;
             lastLastCellGrid[x][y] = DEAD_CELL_AGE;
@@ -50,29 +61,19 @@
 
 - (void)seedNewGame
 {
-    for(int i = 0; i < gridWidth; i++) {
-        for(int j = 0; j < gridHeight; j++) {
+    for(int x = 0; x < gridWidth; x++) {
+        for(int y = 0; y < gridHeight; y++) {
             if((arc4random() % 10) == 0) {
-                currentCellGrid[i][j] = BORN_CELL_AGE;
-            } else {
-                currentCellGrid[i][j] = DEAD_CELL_AGE;
+                currentCellGrid[x][y] = BORN_CELL_AGE;
             }
         }
     }
     
-    for(int i = 0; i < gridWidth; i++) {
-        for(int j = 0; j < gridHeight; j++) {
-            if([self numberOfLiveNeighborsOfCellAtX:i andY:j] != 0) {
+    for(int x = 0; x < gridWidth; x++) {
+        for(int y = 0; y < gridHeight; y++) {
+            if([self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:currentCellGrid] != 0) {
                 if((arc4random() % 4) == 0) {
-                    currentCellGrid[i][j] = BORN_CELL_AGE;
-                } else {
-                    currentCellGrid[i][j] = DEAD_CELL_AGE;
-                }
-            } else {
-                if(currentCellGrid[i][j] == BORN_CELL_AGE) {
-                    currentCellGrid[i][j] = BORN_CELL_AGE;
-                } else {
-                    currentCellGrid[i][j] = DEAD_CELL_AGE;
+                    currentCellGrid[x][y] = BORN_CELL_AGE;
                 }
             }
         }
@@ -97,9 +98,9 @@
 
 - (BOOL)isTheCurrentGridEqualToTheLastGrid
 {
-    for(int y = 0; y < gridHeight; y++) {
-        for(int x = 0; x < gridWidth; x++) {
-            if([self isCellAliveAtX:x andY:y] != [self isCellInLastGridAliveAtX:x andY:y]) {
+    for(int x = 0; x < gridWidth; x++) {
+        for(int y = 0; y < gridHeight; y++) {
+            if([self isCellAliveAtX:x andY:y] != [self isCellAliveAtX:x andY:y inGrid:lastCellGrid]) {
                 return false;
             }
         }
@@ -110,9 +111,9 @@
 
 - (BOOL)isTheCurrentGridEqualToTheLastLastGrid
 {
-    for(int y = 0; y < gridHeight; y++) {
-        for(int x = 0; x < gridWidth; x++) {
-            if([self isCellAliveAtX:x andY:y] != [self isCellInLastLastGridAliveAtX:x andY:y]) {
+    for(int x = 0; x < gridWidth; x++) {
+        for(int y = 0; y < gridHeight; y++) {
+            if([self isCellAliveAtX:x andY:y] != [self isCellAliveAtX:x andY:y inGrid:lastLastCellGrid]) {
                 return false;
             }
         }
@@ -123,18 +124,20 @@
 
 - (void)copyNewerGridsToOlderGrids
 {
-    memcpy(lastLastCellGrid, lastCellGrid, sizeOfGridInBytes);
-    memcpy(lastCellGrid, currentCellGrid, sizeOfGridInBytes);
+    for(int x = 0; x < gridWidth; x++) {
+        memcpy(lastLastCellGrid[x], lastCellGrid[x], gridColumnSizeInBytes);
+        memcpy(lastCellGrid[x], currentCellGrid[x], gridColumnSizeInBytes);
+    }
 }
 
 - (void)calculateNextGeneration
 {
-    for(int y = 0; y < gridHeight; y++) {
-        for(int x = 0; x < gridWidth; x++) {
-            int numberOfNeighbors = [self numberOfLiveNeighborsOfCellAtX:x andY:y];
+    for(int x = 0; x < gridWidth; x++) {
+        for(int y = 0; y < gridHeight; y++) {
+            int numberOfNeighbors = [self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:lastCellGrid];
             
-            if([self isCellInLastGridAliveAtX:x andY:y]) {
-                if(numberOfNeighbors == 2 && numberOfNeighbors == 3) {
+            if([self isCellAliveAtX:x andY:y inGrid:lastCellGrid]) {
+                if(numberOfNeighbors == 2 || numberOfNeighbors == 3) {
                     currentCellGrid[x][y] = lastCellGrid[x][y] + 1;
                 } else {
                     currentCellGrid[x][y] = DEAD_CELL_AGE;
@@ -150,7 +153,7 @@
     }
 }
 
-- (int)numberOfLiveNeighborsOfCellAtX:(int)x andY:(int)y
+- (int)numberOfLiveNeighborsOfCellAtX:(int)x andY:(int)y inGrid:(int**)grid
 {
     int startX = x - 1 + gridWidth;
     int endX = startX + 3;
@@ -160,10 +163,13 @@
     
     int liveNeighbors = 0;
     
-    for(int neighborY = startY; neighborY < endY; neighborY++) {
-        for(int neighborX = startX; neighborX < endX; neighborX++) {
-            if(neighborX != x && neighborY != y) {
-                if([self isCellAliveAtX:(neighborX % gridWidth) andY:(neighborY % gridHeight)]) {
+    for(int neighborX = startX; neighborX < endX; neighborX++) {
+        for(int neighborY = startY; neighborY < endY; neighborY++) {
+            int limitedNeighborX = (neighborX % gridWidth);
+            int limitedNeighborY = (neighborY % gridHeight);
+            
+            if(limitedNeighborX != x || limitedNeighborY != y) {
+                if([self isCellAliveAtX:limitedNeighborX andY:limitedNeighborY inGrid:grid]) {
                     liveNeighbors++;
                 }
             }
@@ -180,17 +186,12 @@
 
 - (BOOL)isCellAliveAtX:(int)x andY:(int)y
 {
-    return (currentCellGrid[x][y] != DEAD_CELL_AGE);
+    return [self isCellAliveAtX:x andY:y inGrid:currentCellGrid];
 }
 
-- (BOOL)isCellInLastGridAliveAtX:(int)x andY:(int)y
+- (BOOL)isCellAliveAtX:(int)x andY:(int)y inGrid:(int**)grid
 {
-    return (lastCellGrid[x][y] != DEAD_CELL_AGE);
-}
-
-- (BOOL)isCellInLastLastGridAliveAtX:(int)x andY:(int)y
-{
-    return (lastLastCellGrid[x][y] != DEAD_CELL_AGE);
+    return (grid[x][y] != DEAD_CELL_AGE);
 }
 
 - (int)getGridWidth
@@ -209,6 +210,54 @@
     free(lastLastCellGrid);
     
     [super dealloc];
+}
+
+- (NSString*)buildGridsString
+{
+    NSMutableString* gridString = [[NSMutableString alloc] init];
+    
+    for(int y = gridHeight - 1; y >= 0; y--) {
+        for(int x = 0; x < gridWidth; x++) {
+            [gridString appendFormat:@"%d", currentCellGrid[x][y] + 1];
+        }
+        [gridString appendString:@"  "];
+        
+        for(int x = 0; x < gridWidth; x++) {
+            [gridString appendFormat:@"%d", lastCellGrid[x][y] + 1];
+        }
+        [gridString appendString:@"  "];
+        
+        for(int x = 0; x < gridWidth; x++) {
+            [gridString appendFormat:@"%d", lastLastCellGrid[x][y] + 1];
+        }
+        [gridString appendString:@"\r\n"];
+    }
+    
+    return gridString;
+}
+
+- (NSString*)buildNeighborsString
+{
+    NSMutableString* gridString = [[NSMutableString alloc] init];
+    
+    for(int y = gridHeight - 1; y >= 0; y--) {
+        for(int x = 0; x < gridWidth; x++) {
+            [gridString appendFormat:@"%d", [self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:currentCellGrid]];
+        }
+        [gridString appendString:@"  "];
+        
+        for(int x = 0; x < gridWidth; x++) {
+            [gridString appendFormat:@"%d", [self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:lastCellGrid]];
+        }
+        [gridString appendString:@"  "];
+        
+        for(int x = 0; x < gridWidth; x++) {
+            [gridString appendFormat:@"%d", [self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:lastLastCellGrid]];
+        }
+        [gridString appendString:@"\r\n"];
+    }
+    
+    return gridString;
 }
 
 @end
