@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Ben Oztalay. All rights reserved.
 //
 
-#import "GameOfLifeScreenSaverView.h"
+#import "BOZGameOfLifeScreenSaverView.h"
 
-@implementation GameOfLifeScreenSaverView
+@implementation BOZGameOfLifeScreenSaverView
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
@@ -16,7 +16,9 @@
     if (self) {
         [self setAnimationTimeInterval:1/2.0];
         
-        gameOfLife = [[GameOfLifeEngine alloc] initWithGridWidth:25 andGridHeight:25];
+        gridSizeCalculator = [[BOZGameOfLifeGridSizeCalculator alloc] initWithViewFrame:frame];
+        
+        gameOfLife = [[BOZGameOfLifeEngine alloc] initWithGridSizeCalculator:gridSizeCalculator];
     }
     return self;
 }
@@ -43,7 +45,7 @@
     
     for(int y = 0; y < [gameOfLife getGridHeight]; y++) {
         for(int x = 0; x < [gameOfLife getGridWidth]; x++) {
-            squareRect = NSMakeRect(x * 25.0f, y * 25.0f, 25.0f, 25.0f);
+            squareRect = NSMakeRect((CGFloat)x * [gridSizeCalculator cellSizeInPoints], (CGFloat)y * [gridSizeCalculator cellSizeInPoints], [gridSizeCalculator roundedCellSizeInPoints], [gridSizeCalculator roundedCellSizeInPoints]);
             rectPath = [NSBezierPath bezierPathWithRect:squareRect];
             
             if([gameOfLife isCellAliveAtX:x andY:y]) {

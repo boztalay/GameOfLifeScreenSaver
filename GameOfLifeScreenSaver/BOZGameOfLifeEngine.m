@@ -6,19 +6,19 @@
 //  Copyright (c) 2013 Ben Oztalay. All rights reserved.
 //
 
-#import "GameOfLifeEngine.h"
+#import "BOZGameOfLifeEngine.h"
 
 #define BORN_CELL_AGE 0
 #define DEAD_CELL_AGE -1
 
-@implementation GameOfLifeEngine
+@implementation BOZGameOfLifeEngine
 
-- (id)initWithGridWidth:(int)_gridWidth andGridHeight:(int)_gridHeight
+- (id)initWithGridSizeCalculator:(BOZGameOfLifeGridSizeCalculator*)gridSizeCalculator
 {
     self = [super init];
     if(self) {
-        gridWidth = _gridWidth;
-        gridHeight = _gridHeight;
+        gridWidth = [gridSizeCalculator gridWidthInCells];
+        gridHeight = [gridSizeCalculator gridHeightInCells];
         
         [self initializeGrids];
     }
@@ -205,59 +205,16 @@
 }
 
 - (void)dealloc {
+    for(int x = 0; x < gridWidth; x++) {
+        free(currentCellGrid[x]);
+        free(lastCellGrid[x]);
+        free(lastLastCellGrid[x]);
+    }
+    
     free(currentCellGrid);
     free(lastCellGrid);
     free(lastLastCellGrid);
     
-    [super dealloc];
-}
-
-- (NSString*)buildGridsString
-{
-    NSMutableString* gridString = [[NSMutableString alloc] init];
-    
-    for(int y = gridHeight - 1; y >= 0; y--) {
-        for(int x = 0; x < gridWidth; x++) {
-            [gridString appendFormat:@"%d", currentCellGrid[x][y] + 1];
-        }
-        [gridString appendString:@"  "];
-        
-        for(int x = 0; x < gridWidth; x++) {
-            [gridString appendFormat:@"%d", lastCellGrid[x][y] + 1];
-        }
-        [gridString appendString:@"  "];
-        
-        for(int x = 0; x < gridWidth; x++) {
-            [gridString appendFormat:@"%d", lastLastCellGrid[x][y] + 1];
-        }
-        [gridString appendString:@"\r\n"];
-    }
-    
-    return gridString;
-}
-
-- (NSString*)buildNeighborsString
-{
-    NSMutableString* gridString = [[NSMutableString alloc] init];
-    
-    for(int y = gridHeight - 1; y >= 0; y--) {
-        for(int x = 0; x < gridWidth; x++) {
-            [gridString appendFormat:@"%d", [self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:currentCellGrid]];
-        }
-        [gridString appendString:@"  "];
-        
-        for(int x = 0; x < gridWidth; x++) {
-            [gridString appendFormat:@"%d", [self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:lastCellGrid]];
-        }
-        [gridString appendString:@"  "];
-        
-        for(int x = 0; x < gridWidth; x++) {
-            [gridString appendFormat:@"%d", [self numberOfLiveNeighborsOfCellAtX:x andY:y inGrid:lastLastCellGrid]];
-        }
-        [gridString appendString:@"\r\n"];
-    }
-    
-    return gridString;
 }
 
 @end

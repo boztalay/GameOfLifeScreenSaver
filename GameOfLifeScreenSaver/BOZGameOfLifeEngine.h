@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BOZGameOfLifeGridSizeCalculator.h"
 
-@interface GameOfLifeEngine : NSObject {
+@interface BOZGameOfLifeEngine : NSObject {
     int** currentCellGrid;
     int** lastCellGrid;
     int** lastLastCellGrid;
@@ -20,7 +21,7 @@
     size_t gridColumnSizeInBytes;
 }
 
-- (id)initWithGridWidth:(int)gridWidth andGridHeight:(int)gridHeight;
+- (id)initWithGridSizeCalculator:(BOZGameOfLifeGridSizeCalculator*)gridSizeCalculator;
 
 - (void)runGeneration;
 
