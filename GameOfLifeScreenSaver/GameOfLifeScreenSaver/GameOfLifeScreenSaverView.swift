@@ -17,7 +17,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
     private static let cellSize: Int = 50
     
     private static let frameRate = 60.0
-    private static let transitionTime = 1.75
+    private static let transitionTime = 2.75
     private static let deadCellColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
     private static let livingCellColor = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     
@@ -34,6 +34,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         let height = Int(Int(frame.height) + GameOfLifeScreenSaverView.cellSize) / GameOfLifeScreenSaverView.cellSize
         self.game = GameOfLife(width: width, height: height)
         self.game.randomizeCells()
+        self.game.step()
         
         self.transitionProportion = 0.0
         self.transitionState = .cellsBorn
@@ -120,8 +121,8 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
     }
 
     private func ease(x: Double) -> Double {
-        // https://easings.net/#easeInOutQuad
-        return (x < 0.5) ? (2 * x * x) : (1.0 - pow((-2.0 * x) + 2.0, 2) / 2.0);
+        // https://easings.net/
+        return -(cos(Double.pi * x) - 1.0) / 2.0
     }
  
     required init?(coder: NSCoder) {
