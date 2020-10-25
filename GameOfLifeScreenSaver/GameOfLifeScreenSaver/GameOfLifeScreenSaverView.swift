@@ -10,10 +10,9 @@ import ScreenSaver
 class GameOfLifeScreenSaverView: ScreenSaverView {
     
     private static let cellSize: Int = 50
-    private static let initialProportionAlive = 0.3
     
     private static let frameRate = 60.0
-    private static let transitionTime = 2.0
+    private static let transitionTime = 2.5
     private static let deadCellColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
     private static let livingCellColor = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     
@@ -28,7 +27,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         let width = Int(Int(frame.width) + GameOfLifeScreenSaverView.cellSize) / GameOfLifeScreenSaverView.cellSize
         let height = Int(Int(frame.height) + GameOfLifeScreenSaverView.cellSize) / GameOfLifeScreenSaverView.cellSize
         self.game = GameOfLife(width: width, height: height)
-        self.game.randomizeCells(with: GameOfLifeScreenSaverView.initialProportionAlive)
+        self.game.randomizeCells()
         
         self.transitionProportion = 0.0
         
@@ -51,7 +50,8 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
                 height: CGFloat(GameOfLifeScreenSaverView.cellSize)
             )
             
-            let cellColor = self.color(forCell: cell, transitioningTo: nextCell)
+            let easedTransitionProportion = self.ease(x: self.transitionProportion)
+            let cellColor = self.color(forCell: cell, transitioningTo: nextCell, progress: easedTransitionProportion)
             cellColor.setFill()
             cellRect.fill()
         }
@@ -68,7 +68,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         self.setNeedsDisplay(self.bounds)
     }
     
-    private func color(forCell cell: Bool, transitioningTo nextCell: Bool) -> NSColor {
+    private func color(forCell cell: Bool, transitioningTo nextCell: Bool, progress: Double) -> NSColor {
         guard nextCell != cell else {
             if cell {
                 return GameOfLifeScreenSaverView.livingCellColor
@@ -88,12 +88,10 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
             endColor = GameOfLifeScreenSaverView.livingCellColor
         }
 
-        let eased = self.ease(x: self.transitionProportion)
-
         return NSColor(
-            red: startColor.redComponent + ((endColor.redComponent - startColor.redComponent) * CGFloat(eased)),
-            green: startColor.greenComponent + ((endColor.greenComponent - startColor.greenComponent) * CGFloat(eased)),
-            blue: startColor.blueComponent + ((endColor.blueComponent - startColor.blueComponent) * CGFloat(eased)),
+            red: startColor.redComponent + ((endColor.redComponent - startColor.redComponent) * CGFloat(progress)),
+            green: startColor.greenComponent + ((endColor.greenComponent - startColor.greenComponent) * CGFloat(progress)),
+            blue: startColor.blueComponent + ((endColor.blueComponent - startColor.blueComponent) * CGFloat(progress)),
             alpha: 1.0
         )
     }

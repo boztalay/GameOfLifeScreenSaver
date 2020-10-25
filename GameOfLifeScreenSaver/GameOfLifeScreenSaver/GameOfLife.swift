@@ -8,16 +8,20 @@
 import Foundation
 
 class GameOfLife {
+
+    private static let initialProportionAlive = 0.3
     
     private(set) var width: Int
     private(set) var height: Int
 
+    private var previousCells: [[Bool]]
     private var cells: [[Bool]]
     private var nextCells: [[Bool]]
     
     init(width: Int, height: Int) {
         self.width = width
         self.height = height
+        self.previousCells = Array(repeating: Array(repeating: false, count: self.height), count: self.width)
         self.cells = Array(repeating: Array(repeating: false, count: self.height), count: self.width)
         self.nextCells = Array(repeating: Array(repeating: false, count: self.height), count: self.width)
     }
@@ -30,13 +34,14 @@ class GameOfLife {
         }
     }
     
-    func randomizeCells(with proportionAlive: Double) {
+    func randomizeCells() {
         self.mapCells { x, y, _, _ in
-            self.nextCells[x][y] = (Double.random(in: 0.0 ..< 1.0) < proportionAlive)
+            self.nextCells[x][y] = (Double.random(in: 0.0 ..< 1.0) < GameOfLife.initialProportionAlive)
         }
     }
 
     func step() {
+        self.previousCells = self.cells
         self.cells = self.nextCells
         
         self.mapCells { x, y, cell, _ in
@@ -54,6 +59,10 @@ class GameOfLife {
             }
             
             self.nextCells[x][y] = nextCell
+        }
+        
+        if self.isGameStatic() || self.isGameAlternating() {
+            self.randomizeCells()
         }
     }
     
@@ -76,5 +85,25 @@ class GameOfLife {
         }
         
         return aliveCount
+    }
+    
+    private func isGameStatic() -> Bool {
+        return self.areCellGridsEqual(cellsA: self.cells, cellsB: self.previousCells)
+    }
+    
+    private func isGameAlternating() -> Bool {
+        return self.areCellGridsEqual(cellsA: self.nextCells, cellsB: self.previousCells)
+    }
+    
+    private func areCellGridsEqual(cellsA: [[Bool]], cellsB: [[Bool]]) -> Bool {
+        var areEqual = true
+        
+        self.mapCells { x, y, _, _ in
+            if cellsA[x][y] != cellsB[x][y] {
+                areEqual = false
+            }
+        }
+        
+        return areEqual
     }
 }
