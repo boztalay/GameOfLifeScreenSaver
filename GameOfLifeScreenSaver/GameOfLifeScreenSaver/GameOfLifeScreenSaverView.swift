@@ -7,17 +7,23 @@
 
 import ScreenSaver
 
+enum GameOfLifeScreenSaverTransitionState {
+    case cellsBorn
+    case cellsDying
+}
+
 class GameOfLifeScreenSaverView: ScreenSaverView {
     
     private static let cellSize: Int = 50
     
     private static let frameRate = 60.0
-    private static let transitionTime = 2.5
+    private static let transitionTime = 1.75
     private static let deadCellColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
     private static let livingCellColor = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     
     private var game: GameOfLife
     private var transitionProportion: Double
+    private var transitionState: GameOfLifeScreenSaverTransitionState
     
     private var transitionProportionIncrement: Double {
         return (1.0 / (GameOfLifeScreenSaverView.frameRate * GameOfLifeScreenSaverView.transitionTime))
@@ -30,6 +36,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         self.game.randomizeCells()
         
         self.transitionProportion = 0.0
+        self.transitionState = .cellsBorn
         
         super.init(frame: frame, isPreview: isPreview)
 
@@ -42,16 +49,15 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         let horizontalOffset = (self.frame.width - CGFloat(self.game.width * GameOfLifeScreenSaverView.cellSize)) / 2.0
         let verticalOffset = (self.frame.height - CGFloat(self.game.height * GameOfLifeScreenSaverView.cellSize)) / 2.0
         
-        self.game.mapCells { x, y, cell, nextCell in
+        self.game.mapCells { x, y, cell in
             let cellRect = NSRect(
                 x: CGFloat(x * GameOfLifeScreenSaverView.cellSize) + horizontalOffset,
                 y: CGFloat(y * GameOfLifeScreenSaverView.cellSize) + verticalOffset,
                 width: CGFloat(GameOfLifeScreenSaverView.cellSize),
                 height: CGFloat(GameOfLifeScreenSaverView.cellSize)
             )
-            
-            let easedTransitionProportion = self.ease(x: self.transitionProportion)
-            let cellColor = self.color(forCell: cell, transitioningTo: nextCell, progress: easedTransitionProportion)
+
+            let cellColor = self.color(forCell: cell)
             cellColor.setFill()
             cellRect.fill()
         }
@@ -62,32 +68,49 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         
         if self.transitionProportion >= 1.0 {
             self.transitionProportion = 0.0
-            self.game.step()
+            
+            switch self.transitionState {
+                case .cellsBorn:
+                    self.transitionState = .cellsDying
+                case .cellsDying:
+                    self.transitionState = .cellsBorn
+                    self.game.step()
+            }
         }
         
         self.setNeedsDisplay(self.bounds)
     }
     
-    private func color(forCell cell: Bool, transitioningTo nextCell: Bool, progress: Double) -> NSColor {
-        guard nextCell != cell else {
-            if cell {
+    private func color(forCell cell: GameOfLifeCellState) -> NSColor {
+        guard cell.isTransitioning else {
+            if cell.isAlive {
                 return GameOfLifeScreenSaverView.livingCellColor
             } else {
                 return GameOfLifeScreenSaverView.deadCellColor
             }
         }
+        
+        if self.transitionState == .cellsBorn && cell == .dying {
+            return GameOfLifeScreenSaverView.livingCellColor
+        }
+        
+        if self.transitionState == .cellsDying && cell == .born {
+            return GameOfLifeScreenSaverView.livingCellColor
+        }
 
         let startColor: NSColor
         let endColor: NSColor
 
-        if cell {
-            startColor = GameOfLifeScreenSaverView.livingCellColor
-            endColor = GameOfLifeScreenSaverView.deadCellColor
-        } else {
+        if cell == .born {
             startColor = GameOfLifeScreenSaverView.deadCellColor
             endColor = GameOfLifeScreenSaverView.livingCellColor
+        } else {
+            startColor = GameOfLifeScreenSaverView.livingCellColor
+            endColor = GameOfLifeScreenSaverView.deadCellColor
         }
 
+        let progress = self.ease(x: self.transitionProportion)
+        
         return NSColor(
             red: startColor.redComponent + ((endColor.redComponent - startColor.redComponent) * CGFloat(progress)),
             green: startColor.greenComponent + ((endColor.greenComponent - startColor.greenComponent) * CGFloat(progress)),
