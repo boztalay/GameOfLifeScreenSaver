@@ -99,7 +99,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
     }
 
     private func ease(x: Double) -> Double {
-        // https://easings.net/#easeOutCubic
+        // https://easings.net/#easeInOutQuad
         return (x < 0.5) ? (2 * x * x) : (1.0 - pow((-2.0 * x) + 2.0, 2) / 2.0);
     }
  
