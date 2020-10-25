@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'GameOfLifeScreenSaver' target in the 'GameOfLifeScreenSaver' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
