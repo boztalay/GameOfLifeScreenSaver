@@ -11,47 +11,50 @@ class GameOfLife {
     
     private(set) var width: Int
     private(set) var height: Int
-    private(set) var cells: [[Bool]]
-    
-    private var scratch: [[Bool]]
+
+    private var cells: [[Bool]]
+    private var nextCells: [[Bool]]
     
     init(width: Int, height: Int) {
         self.width = width
         self.height = height
         self.cells = Array(repeating: Array(repeating: false, count: self.height), count: self.width)
-        self.scratch = Array(repeating: Array(repeating: false, count: self.height), count: self.width)
+        self.nextCells = Array(repeating: Array(repeating: false, count: self.height), count: self.width)
+    }
+
+    func mapCells(block: (Int, Int, Bool, Bool) -> ()) {
+        for x in 0 ..< self.width {
+            for y in 0 ..< self.height {
+                block(x, y, self.cells[x][y], self.nextCells[x][y])
+            }
+        }
     }
     
     func randomizeCells(with proportionAlive: Double) {
-        for x in 0 ..< self.width {
-            for y in 0 ..< self.height {
-                self.cells[x][y] = (Double.random(in: 0.0 ..< 1.0) < proportionAlive)
-            }
+        self.mapCells { x, y, _, _ in
+            self.nextCells[x][y] = (Double.random(in: 0.0 ..< 1.0) < proportionAlive)
         }
     }
-    
+
     func step() {
-        for x in 0 ..< self.width {
-            for y in 0 ..< self.height {
-                let livingNeighbors = self.livingNeighbors(ofCellAtX: x, cellY: y)
-                
-                if self.cells[x][y] {
-                    if livingNeighbors < 2 || livingNeighbors > 3 {
-                        self.scratch[x][y] = false
-                    } else {
-                        self.scratch[x][y] = true
-                    }
-                } else {
-                    if livingNeighbors == 3 {
-                        self.scratch[x][y] = true
-                    } else {
-                        self.scratch[x][y] = false
-                    }
+        self.cells = self.nextCells
+        
+        self.mapCells { x, y, cell, _ in
+            let livingNeighbors = self.livingNeighbors(ofCellAtX: x, cellY: y)
+            var nextCell = false
+            
+            if cell {
+                if livingNeighbors >= 2 && livingNeighbors <= 3 {
+                    nextCell = true
+                }
+            } else {
+                if livingNeighbors == 3 {
+                    nextCell = true
                 }
             }
+            
+            self.nextCells[x][y] = nextCell
         }
-        
-        self.cells = self.scratch
     }
     
     private func livingNeighbors(ofCellAtX cellX: Int, cellY: Int) -> Int {
