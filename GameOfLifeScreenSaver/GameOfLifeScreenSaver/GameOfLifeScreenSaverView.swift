@@ -14,7 +14,7 @@ enum GameOfLifeScreenSaverTransitionState {
 
 class GameOfLifeScreenSaverView: ScreenSaverView {
     
-    private static let cellSize: Int = 50
+    private static let targetCellSize: CGFloat = 50.0
     
     private static let frameRate = 60.0
     private static let transitionTime = 2.75
@@ -22,6 +22,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
     private static let livingCellColor = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     
     private var game: GameOfLife
+    private var cellSize: CGFloat
     private var transitionProportion: Double
     private var transitionState: GameOfLifeScreenSaverTransitionState
     
@@ -30,9 +31,11 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
     }
 
     override init?(frame: NSRect, isPreview: Bool) {
-        let width = Int(Int(frame.width) + GameOfLifeScreenSaverView.cellSize) / GameOfLifeScreenSaverView.cellSize
-        let height = Int(Int(frame.height) + GameOfLifeScreenSaverView.cellSize) / GameOfLifeScreenSaverView.cellSize
-        self.game = GameOfLife(width: width, height: height)
+        let gameWidth = Int(frame.width / GameOfLifeScreenSaverView.targetCellSize)
+        self.cellSize = frame.width / CGFloat(gameWidth)
+        let gameHeight = Int(frame.height / self.cellSize)
+
+        self.game = GameOfLife(width: gameWidth, height: gameHeight)
         self.game.randomizeCells()
         self.game.step()
         
@@ -47,15 +50,12 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let horizontalOffset = (self.frame.width - CGFloat(self.game.width * GameOfLifeScreenSaverView.cellSize)) / 2.0
-        let verticalOffset = (self.frame.height - CGFloat(self.game.height * GameOfLifeScreenSaverView.cellSize)) / 2.0
-        
         self.game.mapCells { x, y, cell in
             let cellRect = NSRect(
-                x: CGFloat(x * GameOfLifeScreenSaverView.cellSize) + horizontalOffset,
-                y: CGFloat(y * GameOfLifeScreenSaverView.cellSize) + verticalOffset,
-                width: CGFloat(GameOfLifeScreenSaverView.cellSize),
-                height: CGFloat(GameOfLifeScreenSaverView.cellSize)
+                x: floor(CGFloat(x) * self.cellSize),
+                y: floor(CGFloat(y) * self.cellSize),
+                width: ceil(self.cellSize),
+                height: ceil(self.cellSize)
             )
 
             let cellColor = self.color(forCell: cell)
