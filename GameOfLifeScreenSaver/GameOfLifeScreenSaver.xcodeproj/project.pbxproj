@@ -15,6 +15,8 @@
 		FB5D315E2543A0F000042391 /* GameOfLifeScreenSaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D31442543823B00042391 /* GameOfLifeScreenSaverView.swift */; };
 		FB5D316F2545103F00042391 /* GameOfLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D316E2545103F00042391 /* GameOfLife.swift */; };
 		FB5D31702545103F00042391 /* GameOfLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D316E2545103F00042391 /* GameOfLife.swift */; };
+		FB5D318A2549167E00042391 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D31892549167E00042391 /* CellView.swift */; };
+		FB5D318B2549167E00042391 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D31892549167E00042391 /* CellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,7 @@
 		FB5D31572543A0D800042391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB5D31582543A0D800042391 /* GameOfLifeScreenSaverTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameOfLifeScreenSaverTestApp.entitlements; sourceTree = "<group>"; };
 		FB5D316E2545103F00042391 /* GameOfLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLife.swift; sourceTree = "<group>"; };
+		FB5D31892549167E00042391 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				FB5D31442543823B00042391 /* GameOfLifeScreenSaverView.swift */,
+				FB5D31892549167E00042391 /* CellView.swift */,
 				FB5D316E2545103F00042391 /* GameOfLife.swift */,
 				FB5D313B254381F200042391 /* Info.plist */,
 				FB5D31432543823A00042391 /* GameOfLifeScreenSaver-Bridging-Header.h */,
@@ -203,6 +207,7 @@
 			files = (
 				FB5D316F2545103F00042391 /* GameOfLife.swift in Sources */,
 				FB5D31452543823B00042391 /* GameOfLifeScreenSaverView.swift in Sources */,
+				FB5D318A2549167E00042391 /* CellView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB5D315E2543A0F000042391 /* GameOfLifeScreenSaverView.swift in Sources */,
+				FB5D318B2549167E00042391 /* CellView.swift in Sources */,
 				FB5D31512543A0CF00042391 /* ViewController.swift in Sources */,
 				FB5D31702545103F00042391 /* GameOfLife.swift in Sources */,
 				FB5D314F2543A0CF00042391 /* AppDelegate.swift in Sources */,

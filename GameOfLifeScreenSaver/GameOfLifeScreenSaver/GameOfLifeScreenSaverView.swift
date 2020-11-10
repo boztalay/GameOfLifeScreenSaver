@@ -7,122 +7,71 @@
 
 import ScreenSaver
 
-enum GameOfLifeScreenSaverTransitionState {
-    case cellsBorn
-    case cellsDying
-}
-
 class GameOfLifeScreenSaverView: ScreenSaverView {
     
     private static let targetCellSize: CGFloat = 50.0
-    
-    private static let frameRate = 60.0
-    private static let transitionTime = 2.75
-    private static let deadCellColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-    private static let livingCellColor = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    
+    private static let gameStepPeriod = 1.0
+
     private var game: GameOfLife
-    private var cellSize: CGFloat
-    private var transitionProportion: Double
-    private var transitionState: GameOfLifeScreenSaverTransitionState
-    
-    private var transitionProportionIncrement: Double {
-        return (1.0 / (GameOfLifeScreenSaverView.frameRate * GameOfLifeScreenSaverView.transitionTime))
-    }
+    private var cellViews: [[CellView]]
 
     override init?(frame: NSRect, isPreview: Bool) {
-        let gameWidth = Int(frame.width / GameOfLifeScreenSaverView.targetCellSize)
-        self.cellSize = frame.width / CGFloat(gameWidth)
-        let gameHeight = Int(frame.height / self.cellSize)
+        // TODO: This is disgusting
+        var gameWidth: Int?
+        var gameHeight: Int?
+        var cellSize: CGFloat?
+        
+        let initialGameWidth = Int(ceil(frame.width / GameOfLifeScreenSaverView.targetCellSize))
 
-        self.game = GameOfLife(width: gameWidth, height: gameHeight)
+        for i in 0 ..< initialGameWidth {
+            let gameWidthCandidate = initialGameWidth - i
+            cellSize = frame.width / CGFloat(gameWidthCandidate)
+            let gameHeightCandidate = Int(frame.height / cellSize!)
+            
+            let gameAspectRatio = Double(gameWidthCandidate) / Double(gameHeightCandidate)
+            let frameAspectRatio = Double(frame.width / frame.height)
+            
+            let aspectRatioDelta = abs(frameAspectRatio - gameAspectRatio)
+            if aspectRatioDelta < 0.01 {
+                gameWidth = gameWidthCandidate
+                gameHeight = gameHeightCandidate
+                break
+            }
+        }
+
+        self.game = GameOfLife(width: gameWidth!, height: gameHeight!)
         self.game.randomizeCells()
         self.game.step()
         
-        self.transitionProportion = 0.0
-        self.transitionState = .cellsBorn
+        self.cellViews = Array(repeating: [], count: gameWidth!)
         
         super.init(frame: frame, isPreview: isPreview)
+        self.animationTimeInterval = GameOfLifeScreenSaverView.gameStepPeriod
 
-        self.animationTimeInterval = 1.0 / GameOfLifeScreenSaverView.frameRate
-    }
-    
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
-        self.game.mapCells { x, y, cell in
-            let cellRect = NSRect(
-                x: floor(CGFloat(x) * self.cellSize),
-                y: floor(CGFloat(y) * self.cellSize),
-                width: ceil(self.cellSize),
-                height: ceil(self.cellSize)
+        self.game.mapCells { x, y, _ in
+            let cellView = CellView(stepPeriod: GameOfLifeScreenSaverView.gameStepPeriod)
+            let frame = NSRect(
+                x: CGFloat(x) * cellSize!,
+                y: CGFloat(y) * cellSize!,
+                width: cellSize!,
+                height: cellSize!
             )
+            
+            cellView.frame = frame
+            self.addSubview(cellView)
 
-            let cellColor = self.color(forCell: cell)
-            cellColor.setFill()
-            cellRect.fill()
+            self.cellViews[x].append(cellView)
         }
     }
     
     override func animateOneFrame() {
-        self.transitionProportion += self.transitionProportionIncrement
+        self.game.step()
         
-        if self.transitionProportion >= 1.0 {
-            self.transitionProportion = 0.0
-            
-            switch self.transitionState {
-                case .cellsBorn:
-                    self.transitionState = .cellsDying
-                case .cellsDying:
-                    self.transitionState = .cellsBorn
-                    self.game.step()
-            }
+        self.game.mapCells { x, y, cell in
+            self.cellViews[x][y].update(cell: cell)
         }
         
         self.setNeedsDisplay(self.bounds)
-    }
-    
-    private func color(forCell cell: GameOfLifeCellState) -> NSColor {
-        guard cell.isTransitioning else {
-            if cell.isAlive {
-                return GameOfLifeScreenSaverView.livingCellColor
-            } else {
-                return GameOfLifeScreenSaverView.deadCellColor
-            }
-        }
-        
-        if self.transitionState == .cellsBorn && cell == .dying {
-            return GameOfLifeScreenSaverView.livingCellColor
-        }
-        
-        if self.transitionState == .cellsDying && cell == .born {
-            return GameOfLifeScreenSaverView.livingCellColor
-        }
-
-        let startColor: NSColor
-        let endColor: NSColor
-
-        if cell == .born {
-            startColor = GameOfLifeScreenSaverView.deadCellColor
-            endColor = GameOfLifeScreenSaverView.livingCellColor
-        } else {
-            startColor = GameOfLifeScreenSaverView.livingCellColor
-            endColor = GameOfLifeScreenSaverView.deadCellColor
-        }
-
-        let progress = self.ease(x: self.transitionProportion)
-        
-        return NSColor(
-            red: startColor.redComponent + ((endColor.redComponent - startColor.redComponent) * CGFloat(progress)),
-            green: startColor.greenComponent + ((endColor.greenComponent - startColor.greenComponent) * CGFloat(progress)),
-            blue: startColor.blueComponent + ((endColor.blueComponent - startColor.blueComponent) * CGFloat(progress)),
-            alpha: 1.0
-        )
-    }
-
-    private func ease(x: Double) -> Double {
-        // https://easings.net/
-        return -(cos(Double.pi * x) - 1.0) / 2.0
     }
  
     required init?(coder: NSCoder) {
