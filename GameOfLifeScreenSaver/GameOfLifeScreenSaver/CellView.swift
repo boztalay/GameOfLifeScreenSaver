@@ -10,7 +10,7 @@ import Cocoa
 class CellView: NSView {
 
     private static let deadColor  = CGColor(red:   0.0 / 255.0, green:  30.0 / 255.0, blue:  45.0 / 255.0, alpha: 1.0)
-    private static let aliveColor = CGColor(red: 209.0 / 255.0, green: 199.0 / 255.0, blue: 199.0 / 255.0, alpha: 1.0)
+    private static let aliveColor = CGColor(red: 203.0 / 255.0, green: 199.0 / 255.0, blue: 199.0 / 255.0, alpha: 1.0)
 
     private let stepPeriod: CGFloat
     
