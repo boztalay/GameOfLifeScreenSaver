@@ -13,7 +13,7 @@ class CellView: NSView {
     
     private static let deadColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
     private static let aliveColor = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).cgColor
-    
+
     private let stepPeriod: CGFloat
     
     init(stepPeriod: CGFloat) {
@@ -29,7 +29,7 @@ class CellView: NSView {
         let maxDistanceFromWaveOrigin = CellView.waveOrigin.distance(to: self.superview!.frame.size.point)
         let waveDistanceDelayProportion = distanceFromWaveOrigin / maxDistanceFromWaveOrigin
         
-        let delay = cellStateDelay + (self.stepPeriod * 0.60 * waveDistanceDelayProportion)
+        let delay = cellStateDelay + (self.stepPeriod * 0.55 * waveDistanceDelayProportion)
         let animationStartTime = DispatchTime.now() + Double(delay)
         
         DispatchQueue.main.asyncAfter(deadline: animationStartTime) {
@@ -39,7 +39,7 @@ class CellView: NSView {
             let animation = CABasicAnimation(keyPath: "backgroundColor")
             animation.fromValue = layer.backgroundColor
             animation.toValue = newColor
-            animation.duration = Double(self.stepPeriod * 0.40)
+            animation.duration = Double(self.stepPeriod * 0.30)
 
             layer.add(animation, forKey: nil)
             

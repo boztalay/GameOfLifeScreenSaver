@@ -10,7 +10,7 @@ import ScreenSaver
 class GameOfLifeScreenSaverView: ScreenSaverView {
     
     private static let targetCellSize: CGFloat = 50.0
-    private static let gameStepPeriod: CGFloat = 3.0
+    private static let gameStepPeriod: CGFloat = 4.0
 
     private var game: GameOfLife
     private var cellViews: [[CellView]]
