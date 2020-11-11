@@ -8,9 +8,9 @@
 import Cocoa
 
 class CellView: NSView {
-    
-    private static let deadColor  = NSColor(red: 0.05, green: 0.05, blue: 0.05, alpha: 1.0).cgColor
-    private static let aliveColor = NSColor(red: 0.90, green: 0.90, blue: 0.95, alpha: 1.0).cgColor
+
+    private static let deadColor  = CGColor(red:   0.0 / 255.0, green:  30.0 / 255.0, blue:  45.0 / 255.0, alpha: 1.0)
+    private static let aliveColor = CGColor(red: 209.0 / 255.0, green: 199.0 / 255.0, blue: 199.0 / 255.0, alpha: 1.0)
 
     private let stepPeriod: CGFloat
     
@@ -45,8 +45,8 @@ class CellView: NSView {
         let waveDistanceDelayProportion = distanceFromWaveOrigin / maxDistanceFromWaveOrigin
         let easedDistanceDelayProportion = self.eaze(waveDistanceDelayProportion)
         
-        let cellStateDelay = cell.isAlive ? 0.0 : (self.stepPeriod * 0.15 * easedDistanceDelayProportion)
-        let delay = cellStateDelay + (self.stepPeriod * 0.55 * easedDistanceDelayProportion)
+        let cellStateDelay = cell.isAlive ? 0.0 : (self.stepPeriod * 0.15)
+        let delay = (cellStateDelay + (self.stepPeriod * 0.55)) * easedDistanceDelayProportion
         let animationStartTime = DispatchTime.now() + Double(delay)
         
         DispatchQueue.main.asyncAfter(deadline: animationStartTime) {

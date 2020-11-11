@@ -28,8 +28,8 @@ extension CGRect {
     
     var center: CGPoint {
         return CGPoint(
-            x: self.x + (self.width / 2.0),
-            y: self.y + (self.height / 2.0)
+            x: self.minX + (self.width / 2.0),
+            y: self.minY + (self.height / 2.0)
         )
     }
 }
