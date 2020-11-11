@@ -17,7 +17,12 @@ class CellView: NSView {
     init(stepPeriod: CGFloat) {
         self.stepPeriod = stepPeriod
         super.init(frame: .zero)
-        self.layer?.backgroundColor = CellView.deadColor
+    }
+    
+    override func makeBackingLayer() -> CALayer {
+        let layer = super.makeBackingLayer()
+        layer.backgroundColor = CellView.deadColor
+        return layer
     }
     
     func update(cell: GameOfLifeCellState) {
@@ -26,24 +31,21 @@ class CellView: NSView {
 //        let maxDistanceFromWaveOrigin = waveOrigin.distance(to: self.superview!.frame.size.point)
         
         // Middle of left edge
-        let waveOrigin = CGPoint(
-            x: 0.0,
-            y: self.superview!.frame.height / 2.0
-        )
-        let maxDistanceFromWaveOrigin = waveOrigin.distance(to: self.superview!.frame.size.point)
-        
-        // Center
 //        let waveOrigin = CGPoint(
-//            x: self.superview!.frame.width / 2.0,
+//            x: 0.0,
 //            y: self.superview!.frame.height / 2.0
 //        )
 //        let maxDistanceFromWaveOrigin = waveOrigin.distance(to: self.superview!.frame.size.point)
+        
+        // Center
+        let waveOrigin = self.superview!.bounds.center
+        let maxDistanceFromWaveOrigin = waveOrigin.distance(to: self.superview!.frame.size.point)
 
-        let distanceFromWaveOrigin = waveOrigin.distance(to: self.frame.origin)
+        let distanceFromWaveOrigin = waveOrigin.distance(to: self.frame.center)
         let waveDistanceDelayProportion = distanceFromWaveOrigin / maxDistanceFromWaveOrigin
         let easedDistanceDelayProportion = self.eaze(waveDistanceDelayProportion)
         
-        let cellStateDelay = cell.isAlive ? 0.0 : (self.stepPeriod * 0.15)
+        let cellStateDelay = cell.isAlive ? 0.0 : (self.stepPeriod * 0.15 * easedDistanceDelayProportion)
         let delay = cellStateDelay + (self.stepPeriod * 0.55 * easedDistanceDelayProportion)
         let animationStartTime = DispatchTime.now() + Double(delay)
         

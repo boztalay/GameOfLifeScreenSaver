@@ -23,3 +23,13 @@ extension CGSize {
         return CGPoint(x: self.width, y: self.height)
     }
 }
+
+extension CGRect {
+    
+    var center: CGPoint {
+        return CGPoint(
+            x: self.x + (self.width / 2.0),
+            y: self.y + (self.height / 2.0)
+        )
+    }
+}
