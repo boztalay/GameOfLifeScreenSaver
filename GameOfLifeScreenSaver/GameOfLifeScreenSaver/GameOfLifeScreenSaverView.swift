@@ -10,7 +10,7 @@ import ScreenSaver
 class GameOfLifeScreenSaverView: ScreenSaverView {
     
     private static let targetCellSize: CGFloat = 50.0
-    private static let gameStepPeriod = 3.0
+    private static let gameStepPeriod: CGFloat = 3.0
 
     private var game: GameOfLife
     private var cellViews: [[CellView]]
@@ -46,7 +46,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         self.cellViews = Array(repeating: [], count: gameWidth!)
         
         super.init(frame: frame, isPreview: isPreview)
-        self.animationTimeInterval = GameOfLifeScreenSaverView.gameStepPeriod
+        self.animationTimeInterval = Double(GameOfLifeScreenSaverView.gameStepPeriod)
 
         self.game.mapCells { x, y, _ in
             let cellView = CellView(stepPeriod: GameOfLifeScreenSaverView.gameStepPeriod)

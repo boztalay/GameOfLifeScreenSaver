@@ -17,6 +17,8 @@
 		FB5D31702545103F00042391 /* GameOfLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D316E2545103F00042391 /* GameOfLife.swift */; };
 		FB5D318A2549167E00042391 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D31892549167E00042391 /* CellView.swift */; };
 		FB5D318B2549167E00042391 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D31892549167E00042391 /* CellView.swift */; };
+		FB5F9269255B8AD200657ABA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5F9268255B8AD200657ABA /* Utilities.swift */; };
+		FB5F926E255B8B7900657ABA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5F9268255B8AD200657ABA /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,7 @@
 		FB5D31582543A0D800042391 /* GameOfLifeScreenSaverTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameOfLifeScreenSaverTestApp.entitlements; sourceTree = "<group>"; };
 		FB5D316E2545103F00042391 /* GameOfLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLife.swift; sourceTree = "<group>"; };
 		FB5D31892549167E00042391 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
+		FB5F9268255B8AD200657ABA /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +80,7 @@
 				FB5D31442543823B00042391 /* GameOfLifeScreenSaverView.swift */,
 				FB5D31892549167E00042391 /* CellView.swift */,
 				FB5D316E2545103F00042391 /* GameOfLife.swift */,
+				FB5F9268255B8AD200657ABA /* Utilities.swift */,
 				FB5D313B254381F200042391 /* Info.plist */,
 				FB5D31432543823A00042391 /* GameOfLifeScreenSaver-Bridging-Header.h */,
 			);
@@ -207,6 +211,7 @@
 			files = (
 				FB5D316F2545103F00042391 /* GameOfLife.swift in Sources */,
 				FB5D31452543823B00042391 /* GameOfLifeScreenSaverView.swift in Sources */,
+				FB5F9269255B8AD200657ABA /* Utilities.swift in Sources */,
 				FB5D318A2549167E00042391 /* CellView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB5F926E255B8B7900657ABA /* Utilities.swift in Sources */,
 				FB5D315E2543A0F000042391 /* GameOfLifeScreenSaverView.swift in Sources */,
 				FB5D318B2549167E00042391 /* CellView.swift in Sources */,
 				FB5D31512543A0CF00042391 /* ViewController.swift in Sources */,
