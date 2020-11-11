@@ -9,22 +9,40 @@ import Cocoa
 
 class CellView: NSView {
     
-    private static let deadColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
-    private static let aliveColor = NSColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).cgColor
-    
     private let stepPeriod: Double
+    private let totalGenerationCount: Int
+    private var lastGenerationAlive: Int?
     
-    init(stepPeriod: Double) {
-        self.stepPeriod = stepPeriod
-        super.init(frame: .zero)
+    override var isOpaque: Bool {
+        return false
     }
     
-    func update(cell: GameOfLifeCellState) {
-        if cell.isAlive {
-            self.layer?.backgroundColor = CellView.aliveColor
-        } else {
-            self.layer?.backgroundColor = CellView.deadColor
-        }
+    init(stepPeriod: Double, totalGenerationCount: Int) {
+        self.stepPeriod = stepPeriod
+        self.totalGenerationCount = totalGenerationCount
+        super.init(frame: .zero)
+        
+        self.layer?.backgroundColor = .clear
+    }
+    
+    func update(cell: GameOfLifeCellState, generation: Int) {
+//        if cell.isAlive {
+//            self.lastGenerationAlive = generation
+//        }
+//
+//        guard let lastGenerationAlive = self.lastGenerationAlive else {
+//            self.layer?.backgroundColor = .white
+//            self.layer?.opacity = 0.0
+//            return
+//        }
+//
+//        var visibilityProportion = CGFloat(lastGenerationAlive) / CGFloat(self.totalGenerationCount) * 0.85
+//        if lastGenerationAlive < self.totalGenerationCount {
+//            visibilityProportion = visibilityProportion * 0.75
+//        }
+//
+//        self.layer?.backgroundColor = .black
+//        self.layer?.opacity = Float(visibilityProportion)
     }
     
     required init?(coder: NSCoder) {

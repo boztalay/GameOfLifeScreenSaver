@@ -29,6 +29,7 @@ class GameOfLife {
     private(set) var width: Int
     private(set) var height: Int
 
+    private (set) var generation: Int
     private var previousCells: [[GameOfLifeCellState]]
     private var cells: [[GameOfLifeCellState]]
     private var nextCells: [[GameOfLifeCellState]]
@@ -36,6 +37,7 @@ class GameOfLife {
     init(width: Int, height: Int) {
         self.width = width
         self.height = height
+        self.generation = 0
         self.previousCells = Array(repeating: Array(repeating: .dead, count: self.height), count: self.width)
         self.cells = Array(repeating: Array(repeating: .dead, count: self.height), count: self.width)
         self.nextCells = Array(repeating: Array(repeating: .dead, count: self.height), count: self.width)
@@ -49,10 +51,15 @@ class GameOfLife {
         }
     }
     
-    func randomizeCells() {
-        self.mapCells { x, y, _ in
-            self.nextCells[x][y] = (Double.random(in: 0.0 ..< 1.0) < GameOfLife.initialProportionAlive) ? .born : .dead
-        }
+    func initializeCells() {
+        let cornerX = self.width - 2
+        let cornerY = self.height - 2
+        
+        self.nextCells[cornerX - 1][cornerY - 0] = .alive
+        self.nextCells[cornerX - 2][cornerY - 1] = .alive
+        self.nextCells[cornerX - 0][cornerY - 2] = .alive
+        self.nextCells[cornerX - 1][cornerY - 2] = .alive
+        self.nextCells[cornerX - 2][cornerY - 2] = .alive
     }
 
     func step() {
@@ -80,9 +87,7 @@ class GameOfLife {
             self.nextCells[x][y] = nextCell
         }
         
-        if self.isGameStatic() || self.isGameAlternating() {
-            self.randomizeCells()
-        }
+        self.generation += 1
     }
     
     private func livingNeighbors(ofCellAtX cellX: Int, cellY: Int) -> Int {
