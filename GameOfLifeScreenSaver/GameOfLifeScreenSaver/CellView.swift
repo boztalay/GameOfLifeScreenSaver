@@ -9,7 +9,7 @@ import Cocoa
 
 class CellView: NSView {
 
-    static let deadColor  = CGColor(red:   0.0 / 255.0, green:  30.0 / 255.0, blue:  45.0 / 255.0, alpha: 1.0)
+    static let deadColor  = CGColor(red:   0.0 / 255.0, green:   0.0 / 255.0, blue:   0.0 / 255.0, alpha: 1.0)
     static let aliveColor = CGColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 215.0 / 255.0, alpha: 1.0)
 
     private let stepPeriod: CGFloat
@@ -26,18 +26,6 @@ class CellView: NSView {
     }
     
     func update(cell: GameOfLifeCellState) {
-        // (0, 0)
-//        let waveOrigin = CGPoint.zero
-//        let maxDistanceFromWaveOrigin = waveOrigin.distance(to: self.superview!.frame.size.point)
-        
-        // Middle of left edge
-//        let waveOrigin = CGPoint(
-//            x: 0.0,
-//            y: self.superview!.frame.height / 2.0
-//        )
-//        let maxDistanceFromWaveOrigin = waveOrigin.distance(to: self.superview!.frame.size.point)
-        
-        // Center
         let waveOrigin = self.superview!.bounds.center
         let maxDistanceFromWaveOrigin = waveOrigin.distance(to: self.superview!.frame.size.point)
 
@@ -46,7 +34,7 @@ class CellView: NSView {
         let easedDistanceDelayProportion = self.eaze(waveDistanceDelayProportion)
         
         let cellStateDelay = cell.isAlive ? 0.0 : (self.stepPeriod * 0.15)
-        let delay = (cellStateDelay + (self.stepPeriod * 0.55)) * easedDistanceDelayProportion
+        let delay = (cellStateDelay + (self.stepPeriod * 0.60)) * easedDistanceDelayProportion
         let animationStartTime = DispatchTime.now() + Double(delay)
         
         DispatchQueue.main.asyncAfter(deadline: animationStartTime) {
