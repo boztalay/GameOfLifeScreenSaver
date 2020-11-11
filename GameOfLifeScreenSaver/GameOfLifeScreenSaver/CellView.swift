@@ -17,7 +17,6 @@ class CellView: NSView {
     init(stepPeriod: Double) {
         self.stepPeriod = stepPeriod
         super.init(frame: .zero)
-        
         self.layer?.backgroundColor = CellView.deadColor
     }
     
@@ -34,8 +33,12 @@ class CellView: NSView {
             animation.toValue = newColor
             animation.duration = halfStepPeriod
 
-            layer.add(animation, forKey: "animation")
+            layer.add(animation, forKey: nil)
+            
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
             layer.backgroundColor = newColor
+            CATransaction.commit()
         }
     }
     
