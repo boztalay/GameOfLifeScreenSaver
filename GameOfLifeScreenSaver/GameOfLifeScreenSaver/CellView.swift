@@ -17,13 +17,25 @@ class CellView: NSView {
     init(stepPeriod: Double) {
         self.stepPeriod = stepPeriod
         super.init(frame: .zero)
+        
+        self.layer?.backgroundColor = CellView.deadColor
     }
     
     func update(cell: GameOfLifeCellState) {
-        if cell.isAlive {
-            self.layer?.backgroundColor = CellView.aliveColor
-        } else {
-            self.layer?.backgroundColor = CellView.deadColor
+        let halfStepPeriod = self.stepPeriod / 2.0
+        let delay = cell.isAlive ? 0.0 : halfStepPeriod
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay) {
+            let layer = self.layer!
+            let newColor = cell.isAlive ? CellView.aliveColor : CellView.deadColor
+            
+            let animation = CABasicAnimation(keyPath: "backgroundColor")
+            animation.fromValue = layer.backgroundColor
+            animation.toValue = newColor
+            animation.duration = halfStepPeriod
+
+            layer.add(animation, forKey: "animation")
+            layer.backgroundColor = newColor
         }
     }
     

@@ -10,7 +10,7 @@ import ScreenSaver
 class GameOfLifeScreenSaverView: ScreenSaverView {
     
     private static let targetCellSize: CGFloat = 50.0
-    private static let gameStepPeriod = 1.0
+    private static let gameStepPeriod = 2.5
 
     private var game: GameOfLife
     private var cellViews: [[CellView]]
@@ -66,7 +66,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
     
     override func animateOneFrame() {
         self.game.step()
-        
+
         self.game.mapCells { x, y, cell in
             self.cellViews[x][y].update(cell: cell)
         }
