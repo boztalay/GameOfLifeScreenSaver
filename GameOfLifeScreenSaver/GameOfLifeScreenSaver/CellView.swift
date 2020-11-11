@@ -9,8 +9,8 @@ import Cocoa
 
 class CellView: NSView {
 
-    private static let deadColor  = CGColor(red:   0.0 / 255.0, green:  30.0 / 255.0, blue:  45.0 / 255.0, alpha: 1.0)
-    private static let aliveColor = CGColor(red: 203.0 / 255.0, green: 199.0 / 255.0, blue: 199.0 / 255.0, alpha: 1.0)
+    static let deadColor  = CGColor(red:   0.0 / 255.0, green:  30.0 / 255.0, blue:  45.0 / 255.0, alpha: 1.0)
+    static let aliveColor = CGColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 215.0 / 255.0, alpha: 1.0)
 
     private let stepPeriod: CGFloat
     
@@ -53,17 +53,13 @@ class CellView: NSView {
             let layer = self.layer!
             let newColor = cell.isAlive ? CellView.aliveColor : CellView.deadColor
             
-            let animation = CABasicAnimation(keyPath: "backgroundColor")
-            animation.fromValue = layer.backgroundColor
-            animation.toValue = newColor
-            animation.duration = Double(self.stepPeriod * 0.25)
+            let colorAnimation = CABasicAnimation(keyPath: "backgroundColor")
+            colorAnimation.fromValue = layer.backgroundColor
+            colorAnimation.toValue = newColor
+            colorAnimation.duration = Double(self.stepPeriod * 0.25)
+            layer.add(colorAnimation, forKey: "backgroundColor")
 
-            layer.add(animation, forKey: nil)
-            
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
             layer.backgroundColor = newColor
-            CATransaction.commit()
         }
     }
     

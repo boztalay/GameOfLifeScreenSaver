@@ -63,6 +63,12 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
             self.cellViews[x].append(cellView)
         }
     }
+
+    override func makeBackingLayer() -> CALayer {
+        let layer = super.makeBackingLayer()
+        layer.backgroundColor = CellView.deadColor
+        return layer
+    }
     
     override func animateOneFrame() {
         self.game.mapCells { x, y, cell in
