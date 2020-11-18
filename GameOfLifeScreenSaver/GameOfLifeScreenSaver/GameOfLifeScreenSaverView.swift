@@ -49,7 +49,6 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
         self.animationTimeInterval = Double(GameOfLifeScreenSaverView.gameStepPeriod)
 
         self.game.mapCells { x, y, _ in
-            let cellView = CellView(stepPeriod: GameOfLifeScreenSaverView.gameStepPeriod)
             let frame = NSRect(
                 x: CGFloat(x) * cellSize!,
                 y: CGFloat(y) * cellSize!,
@@ -57,7 +56,7 @@ class GameOfLifeScreenSaverView: ScreenSaverView {
                 height: cellSize!
             )
             
-            cellView.frame = frame
+            let cellView = CellView(frame: frame, stepPeriod: GameOfLifeScreenSaverView.gameStepPeriod)
             self.addSubview(cellView)
 
             self.cellViews[x].append(cellView)

@@ -13,16 +13,30 @@ class CellView: NSView {
     static let aliveColor = CGColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 215.0 / 255.0, alpha: 1.0)
 
     private let stepPeriod: CGFloat
+    private var contentView: CellContentView!
     
-    init(stepPeriod: CGFloat) {
+    init(frame: CGRect, stepPeriod: CGFloat) {
         self.stepPeriod = stepPeriod
-        super.init(frame: .zero)
+        super.init(frame: frame)
     }
     
-    override func makeBackingLayer() -> CALayer {
-        let layer = super.makeBackingLayer()
-        layer.backgroundColor = CellView.deadColor
-        return layer
+    override func layout() {
+        super.layout()
+        
+        let margin = self.frame.width * 0.10
+        self.contentView = CellContentView(
+            frame: CGRect (
+                x: margin / 2.0,
+                y: margin / 2.0,
+                width: self.frame.width - margin,
+                height: self.frame.height - margin
+            ),
+            backgroundColor: CellView.deadColor,
+            cornerRadius: margin * 1.5
+        )
+
+        self.contentView.layer?.backgroundColor = CellView.deadColor
+        self.addSubview(self.contentView)
     }
     
     func update(cell: GameOfLifeCellState) {
@@ -32,22 +46,26 @@ class CellView: NSView {
         let distanceFromWaveOrigin = waveOrigin.distance(to: self.frame.center)
         let waveDistanceDelayProportion = distanceFromWaveOrigin / maxDistanceFromWaveOrigin
         let easedDistanceDelayProportion = self.eaze(waveDistanceDelayProportion)
-        
+
         let cellStateDelay = cell.isAlive ? 0.0 : (self.stepPeriod * 0.15)
         let delay = (cellStateDelay + (self.stepPeriod * 0.60)) * easedDistanceDelayProportion
         let animationStartTime = DispatchTime.now() + Double(delay)
-        
+
         DispatchQueue.main.asyncAfter(deadline: animationStartTime) {
-            let layer = self.layer!
             let newColor = cell.isAlive ? CellView.aliveColor : CellView.deadColor
             
+            CATransaction.begin()
+            CATransaction.disableActions()
+
             let colorAnimation = CABasicAnimation(keyPath: "backgroundColor")
-            colorAnimation.fromValue = layer.backgroundColor
+            colorAnimation.fromValue = self.contentView.layer?.backgroundColor
             colorAnimation.toValue = newColor
             colorAnimation.duration = Double(self.stepPeriod * 0.25)
-            layer.add(colorAnimation, forKey: "backgroundColor")
 
-            layer.backgroundColor = newColor
+            self.contentView.layer?.add(colorAnimation, forKey: "backgroundColor")
+            self.contentView.layer?.backgroundColor = newColor
+
+            CATransaction.commit()
         }
     }
     

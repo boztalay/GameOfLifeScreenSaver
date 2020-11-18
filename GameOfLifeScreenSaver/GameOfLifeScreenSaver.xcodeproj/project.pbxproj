@@ -19,6 +19,8 @@
 		FB5D318B2549167E00042391 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D31892549167E00042391 /* CellView.swift */; };
 		FB5F9269255B8AD200657ABA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5F9268255B8AD200657ABA /* Utilities.swift */; };
 		FB5F926E255B8B7900657ABA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5F9268255B8AD200657ABA /* Utilities.swift */; };
+		FB9E522C2564D72300F0FE03 /* CellContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E522B2564D72300F0FE03 /* CellContentView.swift */; };
+		FB9E522D2564D72300F0FE03 /* CellContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E522B2564D72300F0FE03 /* CellContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,7 @@
 		FB5D316E2545103F00042391 /* GameOfLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLife.swift; sourceTree = "<group>"; };
 		FB5D31892549167E00042391 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		FB5F9268255B8AD200657ABA /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		FB9E522B2564D72300F0FE03 /* CellContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,7 @@
 			children = (
 				FB5D31442543823B00042391 /* GameOfLifeScreenSaverView.swift */,
 				FB5D31892549167E00042391 /* CellView.swift */,
+				FB9E522B2564D72300F0FE03 /* CellContentView.swift */,
 				FB5D316E2545103F00042391 /* GameOfLife.swift */,
 				FB5F9268255B8AD200657ABA /* Utilities.swift */,
 				FB5D313B254381F200042391 /* Info.plist */,
@@ -213,6 +217,7 @@
 				FB5D31452543823B00042391 /* GameOfLifeScreenSaverView.swift in Sources */,
 				FB5F9269255B8AD200657ABA /* Utilities.swift in Sources */,
 				FB5D318A2549167E00042391 /* CellView.swift in Sources */,
+				FB9E522C2564D72300F0FE03 /* CellContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +230,7 @@
 				FB5D318B2549167E00042391 /* CellView.swift in Sources */,
 				FB5D31512543A0CF00042391 /* ViewController.swift in Sources */,
 				FB5D31702545103F00042391 /* GameOfLife.swift in Sources */,
+				FB9E522D2564D72300F0FE03 /* CellContentView.swift in Sources */,
 				FB5D314F2543A0CF00042391 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
